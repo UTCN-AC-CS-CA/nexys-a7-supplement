@@ -8,7 +8,6 @@ library ieee;
 
 entity proba1 is
   port (
-    clk : in    std_logic;
     btn : in    std_logic_vector(4 downto 0);
     sw  : in    std_logic_vector(15 downto 0);
     led : out   std_logic_vector(15 downto 0);
