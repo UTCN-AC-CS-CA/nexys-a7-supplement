@@ -8,11 +8,11 @@ library ieee;
 
 entity proba1 is
   port (
-    btn : in  std_logic_vector(4 downto 0);
+    btn : in  std_logic_vector(4  downto 0);
     sw  : in  std_logic_vector(15 downto 0);
     led : out std_logic_vector(15 downto 0);
-    an  : out std_logic_vector(7 downto 0);
-    cat : out std_logic_vector(6 downto 0)
+    an  : out std_logic_vector(7  downto 0);
+    cat : out std_logic_vector(6  downto 0)
   );
 end entity proba1;
 
