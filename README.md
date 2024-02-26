@@ -19,8 +19,10 @@ end entity proba1;
 architecture behavioral of proba1 is  
 
 begin
+
   led <= sw;
   an  <= "000" & btn(4 downto 0);
   cat <= (others => '0');
+
 end architecture behavioral; 
 ```
