@@ -19,7 +19,7 @@ architecture behavioral of test_env is
   signal s_counter : std_logic_vector(15  downto 0) := x"0000";
   signal s_mpg_out : std_logic_vector(4  downto 0)  := b"0_0000";
   
---  signal s_counter_5_bit : std_logic_vector(4  downto 0)  := b"0_0000";
+  signal s_counter_5_bit : std_logic_vector(4  downto 0)  := b"0_0000";
 --  signal s_bcd           : std_logic_vector(15  downto 0) := x"0000";
 
   component mono_pulse_gener
@@ -27,6 +27,15 @@ architecture behavioral of test_env is
     clk    : in  std_logic;
     btn    : in  std_logic_vector(4  downto 0);
     enable : out std_logic_vector(4  downto 0)
+  );
+  end component;
+  
+  component seven_seg_disp
+  port (
+    clk    : in  std_logic;
+    digits : in  std_logic_vector(31  downto 0);
+    an     : out std_logic_vector(7  downto 0);
+    cat    : out std_logic_vector(6  downto 0)
   );
   end component;
 
@@ -37,6 +46,15 @@ begin
     clk => clk,
     btn => btn,
     enable => s_mpg_out
+  );
+  
+  ssd : seven_seg_disp
+  port map (
+    clk    => clk,
+--    digits => b"0000_0000_000" & s_counter_5_bit,
+    digits => x"12345678",
+    an     => an,
+    cat    => cat
   );
   
   process(clk) 
