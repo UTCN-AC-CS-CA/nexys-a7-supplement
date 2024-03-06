@@ -6,7 +6,7 @@ library ieee;
 entity seven_seg_disp is
   Port (
     clk    : in  std_logic;
-    digits : in  std_logic_vector(31  downto 0);
+    digits : in  std_logic_vector(31 downto 0);
     an     : out std_logic_vector(7  downto 0);
     cat    : out std_logic_vector(6  downto 0)
   );
@@ -14,8 +14,8 @@ end seven_seg_disp;
 
 architecture Behavioral of seven_seg_disp is
 
-  signal s_counter_out : std_logic_vector(15  downto 0) := x"0000";
-  signal s_top_mux     : std_logic_vector(3  downto 0)  := x"0";
+  signal s_counter_out : std_logic_vector(15 downto 0) := x"0000";
+  signal s_top_mux     : std_logic_vector(3  downto 0) := x"0";
 
 begin
 
@@ -29,8 +29,8 @@ begin
   process (s_counter_out(15 downto 13),digits)
   begin
      case s_counter_out(15 downto 13) is
-       when "000"  => s_top_mux <= digits(3 downto 0);
-       when "001"  => s_top_mux <= digits(7 downto 4);
+       when "000"  => s_top_mux <= digits(3  downto 0);
+       when "001"  => s_top_mux <= digits(7  downto 4);
        when "010"  => s_top_mux <= digits(11 downto 8);
        when "011"  => s_top_mux <= digits(15 downto 12);
        when "100"  => s_top_mux <= digits(19 downto 16);
