@@ -60,5 +60,5 @@ begin
   -- THE COUNTER SHOULD NOT BE A SEPARATE ENTITY
   -- JUST WRITE THE CODE FOR IT HERE
 
-end architecture behavioral; 
+end behavioral; 
 ```
