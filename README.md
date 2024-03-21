@@ -11,7 +11,13 @@ test_rom.vhd
 ```
 
 ### Register File
-![Test ROM](./images/test_reg_file.svg)
+![Test RF](./images/test_reg_file.svg)
 ```
 test_reg_file.vhd
+```
+
+### Random Access Memory
+![Test RAM](./images/test_ram.svg)
+```
+test_ram.vhd
 ```
