@@ -9,3 +9,9 @@ test_env.vhd
 ```
 test_rom.vhd
 ```
+
+### Register File
+![Test ROM](./images/test_reg_file.svg)
+```
+test_reg_file.vhd
+```
