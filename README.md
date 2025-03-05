@@ -14,7 +14,8 @@ end component;
 ```
 
 ### Component Instantiation
-**Between `begin` and `end behavioral`**
+**Between `begin` and `end behavioral`**  
+**IMPORTANT** Instance name cannot be the same as entity name!
 ```vhdl
 <instance name> : <entity name>
 port map (
