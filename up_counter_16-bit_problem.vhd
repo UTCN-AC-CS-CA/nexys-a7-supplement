@@ -34,4 +34,4 @@ begin
   
   led <= cnt;
 
-end architecture behavioral; 
+end behavioral; 
