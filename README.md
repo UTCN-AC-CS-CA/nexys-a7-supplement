@@ -1,5 +1,29 @@
 # Lab 2
 
+## Components
+
+### Component Declaration
+**Between `arch` and `begin`**
+```vhdl
+component <entity name here from other file>
+  port (
+    <ports copy-paste here>;
+    <ports copy-paste here>
+  );
+end component;
+```
+
+### Component Instantiation
+**Between `begin` and `end behavioral`**
+```vhdl
+<instance name> : <entity name>
+port map (
+  <port name from other file> => <port or signal in this file>, -- notice the comma, not semi-colon!
+  <port name from other file> => <port or signal in this file>
+);
+```
+
+
 ## 5-bit Mono Pulse Generator
 ![5-bit MPG](./README/mpg_5-bit.png)
 
