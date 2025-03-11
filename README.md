@@ -1,73 +1,36 @@
-# Lab 2
+# Lab 3
 
-## Components
+**Prerequisites**:
+- Mono Pulse Generator
+- Seven Segment Display
+- A Top-Level Module where the above two are declared + instantiated along with the input + output ports from the schematic below
+- MOST IMPORTANT: **An understanding of how to analyze and put schematics to code**
 
-### Component Declaration
-**Between `arch` and `begin`**
-```vhdl
-component <entity name here from other file>
-  port (
-    <ports copy-paste here>;
-    <ports copy-paste here>
-  );
-end component;
-```
+## Main Test Environment (Top Level Module)
+![Test Env](./README/test_env.svg)
 
-### Component Instantiation
-**Between `begin` and `end behavioral`**  
-**IMPORTANT** Instance name cannot be the same as the entity name!
-```vhdl
-<instance name> : <entity name>
-port map (
-  <port name from other file> => <port or signal in this file>, -- notice the comma, not semi-colon!
-  <port name from other file> => <port or signal in this file>
-);
-```
+All of the exercises (necessary components) below will go into the "Black Box" section of the schematic.  
 
+_Remember_: **UNLESS EXPLICITELY STATED, DO NOT CREATE ADDITIONAL FILES FOR COMPONENTS, JUST DIRECLTY IMPLEMENT IN THE TOP-LEVEL MODULE**  
 
-## 5-bit Mono Pulse Generator
-![5-bit MPG](./README/mpg_5-bit.png)
+Once you're ready with a certain assignment, then please raise your hand and show your implementation to the teacher. If everything is alright, then please upload your code to the repo before proceeding to another assignment.
 
-## Decoder with 16-bit output with zero
-![5-to-16 DCD](./README/dcd_5-to-16.png)
+## Exercise 1 - Const val to 7SD
+![Ex 1](./README/2025_ex1.svg)
 
-## 7-segment Display
-![7-segment Display](./README/ssd.png)
+## Exercise 2 - Counter to 7SD
+![Ex 2](./README/2025_ex2.svg)
 
-### Bottom Multiplexer
-```vhdl
-process (s_counter_out(15 downto 13))
-  begin
-    case s_counter_out(15 downto 13) is
-      when "000"  => an <= b"1111_1110";
-      when "001"  => an <= b"1111_1101";
-      when "010"  => an <= b"1111_1011";
-      when "011"  => an <= b"1111_0111";
-      when "100"  => an <= b"1110_1111";
-      when "101"  => an <= b"1101_1111";
-      when "110"  => an <= b"1011_1111";
-      when others => an <= b"0111_1111";
-    end case;
-  end process;
-```
+## Exercise 3 - ALU
+![Ex 3](./README/2025_ex3.svg)
 
-### Hex to 7-Seg Decoder
-```vhdl
-with s_top_mux select
-    cat <= "1111001" when "0001",   --1
-           "0100100" when "0010",   --2
-           "0110000" when "0011",   --3
-           "0011001" when "0100",   --4
-           "0010010" when "0101",   --5
-           "0000010" when "0110",   --6
-           "1111000" when "0111",   --7
-           "0000000" when "1000",   --8
-           "0010000" when "1001",   --9
-           "0001000" when "1010",   --A
-           "0000011" when "1011",   --b
-           "1000110" when "1100",   --C
-           "0100001" when "1101",   --d
-           "0000110" when "1110",   --E
-           "0001110" when "1111",   --F
-           "1000000" when others;   --0
-```
+## Read Only Memory
+![ROM](./README/test_rom.svg)
+
+## Register File
+**IMPORTANT**: The _Reg File_ must be a separate entity (implement in its own file and then declare + instantiate in the top-level module)
+![RegFile](./README/test_reg_file.svg)
+
+## Random Access Memory
+**IMPORTANT**: The _RAM_ must be a separate entity (implement in its own file and then declare + instantiate in the top-level module)
+![RAM](./README/test_ram.svg)
