@@ -34,3 +34,8 @@ Once you're ready with a certain assignment, then please raise your hand and sho
 ## Random Access Memory
 **IMPORTANT**: The _RAM_ must be a separate entity (implement in its own file and then declare + instantiate in the top-level module)
 ![RAM](./README/Lab3-RAM.svg)
+
+Please be aware that the RAM must be implemented using **WRITE-FIRST** mode. For reference, please have a look at the _Language Templates_ (the light bulb icon) and then  
+`VHDL` --> `Synthesis Constructs` --> `Coding Examples` --> `RAM` --> `Block RAM` --> `Single Port` --> `Write First Mode`
+
+![WFLangTemp](./README/ram_lang_temp.png)
