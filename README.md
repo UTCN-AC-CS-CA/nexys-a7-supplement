@@ -24,6 +24,27 @@ Once you're ready with a certain assignment, then please raise your hand and sho
 ## Exercise 3 - ALU
 ![Ex 3](./README/2025-ex3.svg)
 
+## Arrays in VHDL
+**Declaring an array**  
+The syntax for decalring an array as per the _Lab 3_ documentation is `type <name of the variable TYPE> is array (0 to N-1) of std_logic_vector(M-1 downto 0)`  
+As an example, if you have an 8-bit input for the address, that means that you have 2^8 = 256 locations (rows => N) in the array. If you want to store 16-bit variables (columns => M), the you specify that after the `of` keyword.  
+Once you have declared the type for the array, then you will have to declare it, just like any other signal and usually you will want to populate it with initial values.
+```vhdl
+type t_rom is array (0 to 255) of std_logic_vector(15 downto 0);
+signal s_rom : t_rom := (
+  x"0000",  
+  x"1234",
+  x"abcd",
+  x"1337",
+  others => (others => '1')
+);
+```
+**Reading data from an array**  
+You will need to use the `conv_integer` method to convert the `std_logic_vector` variable to an `integer` type in order to access a value at a certain index:
+```vhdl
+s_data <= s_rom(conv_integer(s_cnt));
+```
+
 ## Read Only Memory
 ![ROM](./README/Lab3-ROM.svg)
 
