@@ -40,7 +40,7 @@ signal s_rom : t_rom := (
 );
 ```
 **Reading data from an array**  
-You will need to use the `conv_integer` method to convert the `std_logic_vector` variable to an `integer` type in order to access a value at a certain index:
+You will need to use the `conv_integer` method (which is part of the `ieee.std_logic_arith` library) in order to convert the `std_logic_vector` variable to an `integer` type in order to access a value at a certain index:
 ```vhdl
 s_data <= s_rom(conv_integer(s_cnt));
 ```
