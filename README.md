@@ -38,11 +38,12 @@ architecture behavioral of inst_fetch is
   type t_rom is array (0 to 255) of std_logic_vector(15 downto 0);
   signal s_rom : t_rom := (
   --  opc rs  rt  rd sa func
-    b"000_001_010_011_0_000", -- x"0530" add $3 <= $1 + $2
-    b"000_110_100_010_0_001", -- x"1a21" sub $2 <= $6 - $4
-    x"1234",
-    x"abcd",
-    x"1337",
+    b"000_001_010_011_0_000", -- #0 x"0530" add $3 <= $1 + $2
+    b"000_110_100_010_0_001", -- #1 x"1a21" sub $2 <= $6 - $4
+    x"1234",                  -- #2 x"1234" just a random number
+    x"abcd",                  -- #3 x"abcd" another random number
+    x"1337",                  -- #4 x"1337" leet from leetspeak
+    x"d00d",                  -- #5 x"d00d" dude
     others => (others => '1')
   );
   
