@@ -24,9 +24,9 @@ entity inst_fetch is
     jump_address          : in  std_logic_vector(15 downto 0);
     pc_en                 : in  std_logic;
     pc_reset              : in  std_logic;
-    -- control signals
-    ctrl_jump             : in  std_logic;
-    ctrl_branch           : in  std_logic;
+    -- control signal based inputs
+    jump                  : in  std_logic;
+    pc_src                : in  std_logic;
     -- outputs
     instruction           : out std_logic_vector(15 downto 0);
     pc_plus_one           : out std_logic_vector(15 downto 0)
@@ -73,8 +73,8 @@ architecture behavioral of test_env is
     clk                   : in  std_logic;
     branch_target_address : in  std_logic_vector(15 downto 0);
     jump_address          : in  std_logic_vector(15 downto 0);
-    ctrl_jump             : in  std_logic;
-    ctrl_branch           : in  std_logic;
+    jump                  : in  std_logic;
+    pc_src                : in  std_logic;
     pc_en                 : in  std_logic;
     pc_reset              : in  std_logic;
     instruction           : out std_logic_vector(15 downto 0);
@@ -93,8 +93,8 @@ begin
     clk                    => ,
     branch_target_address  => ,
     jump_address           => ,
-    ctrl_jump              => ,
-    ctrl_branch            => ,
+    jump                   => ,
+    pc_src                 => ,
     pc_en                  => ,
     pc_reset               => ,
     instruction            => ,
