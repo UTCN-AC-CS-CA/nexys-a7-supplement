@@ -175,3 +175,95 @@ begin
 end behavioral;
 ```
 
+## Main Control Unit
+
+### Sample template for CU component
+
+```vhd
+library ieee;
+  use ieee.std_logic_1164.all;
+  use ieee.std_logic_arith.all;
+  use ieee.std_logic_unsigned.all;
+
+entity control_unit is
+  port (
+    -- inputs
+    op_code : in std_logic_vector(2 downto 0);
+    -- outputs
+    reg_dst    : out std_logic;
+    ext_op     : out std_logic;
+    alu_src    : out std_logic;
+    branch     : out std_logic;
+    jump       : out std_logic;
+    alu_op     : out std_logic_vector(2 downto 0);
+    mem_write  : out std_logic;
+    mem_to_reg : out std_logic;
+    reg_write  : out std_logic 
+  );
+end control_unit;
+
+architecture behavioral of control_unit is
+
+begin
+
+    process(op_code)
+    begin
+      case op_code is
+        when "000" =>
+          reg_dst    <= ;
+          ext_op     <= ;
+          alu_src    <= ;
+          branch     <= ;
+          jump       <= ;
+          alu_op     <= ;
+          mem_write  <= ;
+          mem_to_reg <= ;
+          reg_write  <= ;
+        when others =>
+          reg_dst    <= ;
+          ext_op     <= ;
+          alu_src    <= ;
+          branch     <= ;
+          jump       <= ;
+          alu_op     <= ;
+          mem_write  <= ;
+          mem_to_reg <= ;
+          reg_write  <= ;
+      end case;
+    end process;  
+
+end behavioral;
+```
+
+### Sample template for declaration and instantiation in the top-level module
+
+```vhd
+  component control_unit
+  port (
+    op_code    : in std_logic_vector(2 downto 0);
+    reg_dst    : out std_logic;
+    ext_op     : out std_logic;
+    alu_src    : out std_logic;
+    branch     : out std_logic;
+    jump       : out std_logic;
+    alu_op     : out std_logic_vector(2 downto 0);
+    mem_write  : out std_logic;
+    mem_to_reg : out std_logic;
+    reg_write  : out std_logic
+  );
+  end component;
+
+  inst_cu : control_unit
+  port map (
+    op_code    => s_if_out_instruction(15 downto 13),
+    reg_dst    => s_ctrl_reg_dst,
+    ext_op     => s_ctrl_ext_op,
+    alu_src    => s_ctrl_alu_src,
+    branch     => s_ctrl_branch,
+    jump       => s_ctrl_jump,
+    alu_op     => s_ctrl_alu_op,
+    mem_write  => s_ctrl_mem_write,
+    mem_to_reg => s_ctrl_mem_to_reg,
+    reg_write  => s_ctrl_reg_write
+  );
+```
