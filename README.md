@@ -5,6 +5,51 @@
 
 ![Test Env after ID & MCU](./README/test_env_after_id.svg)
 
+
+### Sample template for miscellaneous components in the Top-Level Module
+
+```vhd
+  -- MUX for 7-segment display left side (31 downto 16)
+  process (sw(11 downto 9), s_if_out_pc_plus_one, s_if_out_instruction, s_id_out_rd1, s_id_out_rd2, s_id_in_wd)
+  begin
+    case sw(11 downto 9) is
+      when "000"  => s_digits_upper <= s_if_out_instruction;
+      when "001"  => s_digits_upper <= s_if_out_pc_plus_one;
+      when "010"  => s_digits_upper <= s_id_out_rd1;
+      when "011"  => s_digits_upper <= s_id_out_rd2;
+      when "100"  => s_digits_upper <= s_id_in_wd;    
+      when others => s_digits_upper <= s_if_out_instruction;
+    end case;
+  end process;
+
+  -- MUX for 7-segment display right side (15 downto 0)
+  process (sw(6 downto 4), s_if_out_pc_plus_one, s_if_out_instruction, s_id_out_rd1, s_id_out_rd2, s_id_in_wd)
+  begin
+    case sw(6 downto 4) is
+      when "000"  => s_digits_lower <= s_if_out_instruction;
+      when "001"  => s_digits_lower <= s_if_out_pc_plus_one;
+      when "010"  => s_digits_lower <= s_id_out_rd1;
+      when "011"  => s_digits_lower <= s_id_out_rd2;
+      when "100"  => s_digits_lower <= s_id_in_wd;    
+      when others => s_digits_lower <= s_if_out_instruction;
+    end case;
+  end process;
+
+  s_digits <= s_digits_upper & s_digits_lower;
+
+  -- LED with signals from Main Control Unit
+  led <= s_ctrl_alu_op     & -- ALU operation        15:13
+         b"0000_0"         & -- Unused               12:8
+         s_ctrl_reg_dst    & -- Register destination 7
+         s_ctrl_ext_op     & -- Extend operation     6
+         s_ctrl_alu_src    & -- ALU source           5
+         s_ctrl_branch     & -- Branch               4
+         s_ctrl_jump       & -- Jump                 3
+         s_ctrl_mem_write  & -- Memory write         2
+         s_ctrl_mem_to_reg & -- Memory to register   1
+         s_ctrl_reg_write;   -- Register write       0
+```
+
 _Remember_: **UNLESS EXPLICITELY STATED, DO NOT CREATE ADDITIONAL FILES FOR COMPONENTS, JUST DIRECLTY IMPLEMENT IN THE GIVEN MODULE**  
 
 ## Instruction Decode
