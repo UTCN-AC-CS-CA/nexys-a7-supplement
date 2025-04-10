@@ -1,14 +1,19 @@
-# MIPS - Phase 1 - Instruction Fetch
+# MIPS - Phase 2 - Instruction Decode
 
 ## Main Test Environment (Top Level Module)
 ![Test Env](./README/test_env.svg)
 
-## Instruction Fetch
+![Test Env after ID & MCU](./README/test_env_after_id.svg)
+
 _Remember_: **UNLESS EXPLICITELY STATED, DO NOT CREATE ADDITIONAL FILES FOR COMPONENTS, JUST DIRECLTY IMPLEMENT IN THE GIVEN MODULE**  
 
-![Instruction Fetch Schematic](./README/mips_if.svg)
+## Instruction Decode
 
-### Sample template for the IF component
+**THE REGISTER FILE SHOULD BE A SEPARATE COMPONENT!**
+
+![Instruction Decode Schematic](./README/mips_id.svg)
+
+### Sample template for the ID component
 
 ```vhdl
 library ieee;
@@ -16,42 +21,57 @@ library ieee;
   use ieee.std_logic_arith.all;
   use ieee.std_logic_unsigned.all;
 
-entity inst_fetch is
+entity instr_decode is
   port (
     -- inputs
-    clk                   : in  std_logic;
-    branch_target_address : in  std_logic_vector(15 downto 0);
-    jump_address          : in  std_logic_vector(15 downto 0);
-    pc_en                 : in  std_logic;
-    pc_reset              : in  std_logic;
+    clk       : in  std_logic;
+    instr     : in  std_logic_vector(15 downto 0);
+    wd        : in  std_logic_vector(15 downto 0);
     -- control signal based inputs
-    jump                  : in  std_logic;
-    pc_src                : in  std_logic;
+    ext_op    : in  std_logic;
+    reg_dst   : in  std_logic;
+    reg_write : in  std_logic;
     -- outputs
-    instruction           : out std_logic_vector(15 downto 0);
-    pc_plus_one           : out std_logic_vector(15 downto 0)
+    ext_imm   : out std_logic_vector(15 downto 0);
+    func      : out std_logic_vector(2  downto 0);
+    rd1       : out std_logic_vector(15 downto 0);
+    rd2       : out std_logic_vector(15 downto 0);        
+    sa        : out std_logic
   );
-end inst_fetch;
+end instr_decode;
 
-architecture behavioral of inst_fetch is
+architecture behavioral of instr_decode is
 
-  type t_rom is array (0 to 255) of std_logic_vector(15 downto 0);
-  signal s_rom : t_rom := (
-  --  opc rs  rt  rd sa func
-    b"000_001_010_011_0_000", -- #0 x"0530" add $3 <= $1 + $2
-    b"000_110_100_010_0_001", -- #1 x"1a21" sub $2 <= $6 - $4
-    x"1234",                  -- #2 x"1234" just a random number
-    x"abcd",                  -- #3 x"abcd" another random number
-    x"1337",                  -- #4 x"1337" leet from leetspeak
-    x"d00d",                  -- #5 x"d00d" dude
-    others => (others => '1')
+  component reg_file
+  port (
+    clk : in  std_logic;
+    ra1 : in  std_logic_vector(2  downto 0);
+    ra2 : in  std_logic_vector(2  downto 0);
+    wa  : in  std_logic_vector(2  downto 0);
+    wd  : in  std_logic_vector(15 downto 0);
+    wen : in  std_logic;
+    rd1 : out std_logic_vector(15 downto 0);
+    rd2 : out std_logic_vector(15 downto 0)
   );
-  
+  end component;
+
   -- *  
   -- NO OTHER EXTERNAL COMPONENT DECLARATION NECESSARY
   -- ADDITIONAL SIGNALS HERE
 
 begin
+
+  inst_rf : reg_file
+  port map (
+    clk => ,
+    ra1 => ,
+    ra2 => ,
+    wa  => ,
+    wd  => ,
+    wen => ,
+    rd1 => ,
+    rd2 => 
+  );
 
   -- **  
   -- NO OTHER EXTERNAL COMPONENT INSTANTIATION NECESSARY
@@ -68,17 +88,19 @@ architecture behavioral of test_env is
 
   -- previous signals and component declarations
 
-  component inst_fetch
+  component instr_decode
   port (
-    clk                   : in  std_logic;
-    branch_target_address : in  std_logic_vector(15 downto 0);
-    jump_address          : in  std_logic_vector(15 downto 0);
-    jump                  : in  std_logic;
-    pc_src                : in  std_logic;
-    pc_en                 : in  std_logic;
-    pc_reset              : in  std_logic;
-    instruction           : out std_logic_vector(15 downto 0);
-    pc_plus_one           : out std_logic_vector(15 downto 0)
+    clk       : in  std_logic;
+    instr     : in  std_logic_vector(15 downto 0);
+    wd        : in  std_logic_vector(15 downto 0);
+    ext_op    : in  std_logic;
+    reg_dst   : in  std_logic;
+    reg_write : in  std_logic;
+    ext_imm   : out std_logic_vector(15 downto 0);
+    func      : out std_logic_vector(2  downto 0);
+    rd1       : out std_logic_vector(15 downto 0);
+    rd2       : out std_logic_vector(15 downto 0);
+    sa        : out std_logic
   );
   end component;
 
@@ -88,20 +110,23 @@ begin
 
   -- previous component instantiations / implementation
 
-  inst_infe : inst_fetch
+  inst_indcd : instr_decode
   port map (
-    clk                    => ,
-    branch_target_address  => ,
-    jump_address           => ,
-    jump                   => ,
-    pc_src                 => ,
-    pc_en                  => ,
-    pc_reset               => ,
-    instruction            => ,
-    pc_plus_one            => 
+    clk       => clk,
+    instr     => s_if_out_instruction,
+    wd        => s_id_in_wd,
+    ext_op    => s_ctrl_ext_op,
+    reg_dst   => s_ctrl_reg_dst,
+    reg_write => s_id_in_reg_write,
+    ext_imm   => s_id_out_ext_imm,
+    func      => s_id_out_func,
+    rd1       => s_id_out_rd1,
+    rd2       => s_id_out_rd2,
+    sa        => s_id_out_sa
   );
 
   -- additional component instantiations / implementation
 
 end behavioral;
 ```
+
