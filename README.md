@@ -1,10 +1,7 @@
-# MIPS - Phase 2 - Instruction Decode
+# MIPS - Phase 3 & 4 - Execution Unit & Memory Unit + Write-back Unit
 
 ## Main Test Environment (Top Level Module)
 ![Test Env](./README/test_env.svg)
-
-![Test Env after ID & MCU](./README/test_env_after_id.svg)
-
 
 ### Sample template for miscellaneous components in the Top-Level Module
 
@@ -17,8 +14,10 @@
       when "001"  => s_digits_upper <= s_if_out_pc_plus_one;
       when "010"  => s_digits_upper <= s_id_out_rd1;
       when "011"  => s_digits_upper <= s_id_out_rd2;
-      when "100"  => s_digits_upper <= s_id_in_wd;    
-      when others => s_digits_upper <= s_if_out_instruction;
+      when "100"  => s_digits_upper <= s_id_out_ext_imm;
+      when "101"  => s_digits_upper <= s_eu_out_alu_res;
+      when "110"  => s_digits_upper <= s_mu_out_mem_data;
+      when "111"  => s_digits_upper <= s_wb_out_wd;
     end case;
   end process;
 
@@ -30,8 +29,10 @@
       when "001"  => s_digits_lower <= s_if_out_pc_plus_one;
       when "010"  => s_digits_lower <= s_id_out_rd1;
       when "011"  => s_digits_lower <= s_id_out_rd2;
-      when "100"  => s_digits_lower <= s_id_in_wd;    
-      when others => s_digits_lower <= s_if_out_instruction;
+      when "100"  => s_digits_lower <= s_id_out_ext_imm;
+      when "101"  => s_digits_lower <= s_eu_out_alu_res;
+      when "110"  => s_digits_lower <= s_mu_out_mem_data;
+      when "111"  => s_digits_lower <= s_wb_out_wd;
     end case;
   end process;
 
@@ -52,132 +53,10 @@
 
 _Remember_: **UNLESS EXPLICITELY STATED, DO NOT CREATE ADDITIONAL FILES FOR COMPONENTS, JUST DIRECLTY IMPLEMENT IN THE GIVEN MODULE**  
 
-## Instruction Decode
+## Execution Unit
+![Test Env](./README/test_env.svg)
 
-**THE REGISTER FILE SHOULD BE A SEPARATE COMPONENT!**
-
-![Instruction Decode Schematic](./README/mips_id.svg)
-
-### Sample template for the ID component
-
-```vhdl
-library ieee;
-  use ieee.std_logic_1164.all;
-  use ieee.std_logic_arith.all;
-  use ieee.std_logic_unsigned.all;
-
-entity instr_decode is
-  port (
-    -- inputs
-    clk       : in  std_logic;
-    instr     : in  std_logic_vector(15 downto 0);
-    wd        : in  std_logic_vector(15 downto 0);
-    -- control signal based inputs
-    ext_op    : in  std_logic;
-    reg_dst   : in  std_logic;
-    reg_write : in  std_logic;
-    -- outputs
-    ext_imm   : out std_logic_vector(15 downto 0);
-    func      : out std_logic_vector(2  downto 0);
-    rd1       : out std_logic_vector(15 downto 0);
-    rd2       : out std_logic_vector(15 downto 0);        
-    sa        : out std_logic
-  );
-end instr_decode;
-
-architecture behavioral of instr_decode is
-
-  component reg_file
-  port (
-    clk : in  std_logic;
-    ra1 : in  std_logic_vector(2  downto 0);
-    ra2 : in  std_logic_vector(2  downto 0);
-    wa  : in  std_logic_vector(2  downto 0);
-    wd  : in  std_logic_vector(15 downto 0);
-    wen : in  std_logic;
-    rd1 : out std_logic_vector(15 downto 0);
-    rd2 : out std_logic_vector(15 downto 0)
-  );
-  end component;
-
-  -- *  
-  -- NO OTHER EXTERNAL COMPONENT DECLARATION NECESSARY
-  -- ADDITIONAL SIGNALS HERE
-
-begin
-
-  inst_rf : reg_file
-  port map (
-    clk => ,
-    ra1 => ,
-    ra2 => ,
-    wa  => ,
-    wd  => ,
-    wen => ,
-    rd1 => ,
-    rd2 => 
-  );
-
-  -- **  
-  -- NO OTHER EXTERNAL COMPONENT INSTANTIATION NECESSARY
-  -- ADDITIONAL COMPONENT IMPLEMENTATION HERE
-
-end behavioral;
-```
-
-### Sample template for declaration and instantiation in the top-level module
-
-```vhdl
-
-architecture behavioral of test_env is
-
-  -- previous signals and component declarations
-
-  component instr_decode
-  port (
-    clk       : in  std_logic;
-    instr     : in  std_logic_vector(15 downto 0);
-    wd        : in  std_logic_vector(15 downto 0);
-    ext_op    : in  std_logic;
-    reg_dst   : in  std_logic;
-    reg_write : in  std_logic;
-    ext_imm   : out std_logic_vector(15 downto 0);
-    func      : out std_logic_vector(2  downto 0);
-    rd1       : out std_logic_vector(15 downto 0);
-    rd2       : out std_logic_vector(15 downto 0);
-    sa        : out std_logic
-  );
-  end component;
-
-  -- additional signals and component declarations
-
-begin
-
-  -- previous component instantiations / implementation
-
-  inst_indcd : instr_decode
-  port map (
-    clk       => clk,
-    instr     => s_if_out_instruction,
-    wd        => s_id_in_wd,
-    ext_op    => s_ctrl_ext_op,
-    reg_dst   => s_ctrl_reg_dst,
-    reg_write => s_id_in_reg_write,
-    ext_imm   => s_id_out_ext_imm,
-    func      => s_id_out_func,
-    rd1       => s_id_out_rd1,
-    rd2       => s_id_out_rd2,
-    sa        => s_id_out_sa
-  );
-
-  -- additional component instantiations / implementation
-
-end behavioral;
-```
-
-## Main Control Unit
-
-### Sample template for CU component
+### Sample template for EU component
 
 ```vhd
 library ieee;
@@ -185,85 +64,119 @@ library ieee;
   use ieee.std_logic_arith.all;
   use ieee.std_logic_unsigned.all;
 
-entity control_unit is
+entity exec_unit is
   port (
     -- inputs
-    op_code : in std_logic_vector(2 downto 0);
+    ext_imm     : in std_logic_vector(15 downto 0);
+    func        : in std_logic_vector(2  downto 0);
+    rd1         : in std_logic_vector(15 downto 0);
+    rd2         : in std_logic_vector(15 downto 0);        
+    pc_plus_one : in std_logic_vector(15 downto 0);
+    sa          : in std_logic;
+    -- control signals
+    alu_op    : in  std_logic_vector(2 downto 0);
+    alu_src   : in  std_logic;
     -- outputs
-    reg_dst    : out std_logic;
-    ext_op     : out std_logic;
-    alu_src    : out std_logic;
-    branch     : out std_logic;
-    jump       : out std_logic;
-    alu_op     : out std_logic_vector(2 downto 0);
-    mem_write  : out std_logic;
-    mem_to_reg : out std_logic;
-    reg_write  : out std_logic 
+    alu_res : out std_logic_vector(15 downto 0);
+    bta     : out std_logic_vector(15 downto 0);
+    zero    : out std_logic
   );
-end control_unit;
+end entity;
 
-architecture behavioral of control_unit is
+architecture rtl of exec_unit is
+
+  signal s_alu_control    : std_logic_vector(2  downto 0);
+  signal s_alu_res        : std_logic_vector(15 downto 0);
+  signal s_second_operand : std_logic_vector(15 downto 0);
 
 begin
 
-    process(op_code)
-    begin
-      case op_code is
-        when "000" =>
-          reg_dst    <= ;
-          ext_op     <= ;
-          alu_src    <= ;
-          branch     <= ;
-          jump       <= ;
-          alu_op     <= ;
-          mem_write  <= ;
-          mem_to_reg <= ;
-          reg_write  <= ;
-        when others =>
-          reg_dst    <= ;
-          ext_op     <= ;
-          alu_src    <= ;
-          branch     <= ;
-          jump       <= ;
-          alu_op     <= ;
-          mem_write  <= ;
-          mem_to_reg <= ;
-          reg_write  <= ;
-      end case;
-    end process;  
+  -- ALU Control
+  process (alu_op, func)
+  begin
+    case alu_op is
+      when "000" =>
+        case func is
+            when "000"  => s_alu_control <= ""; -- ADD
+            when "001"  => s_alu_control <= ""; -- SUB
+            when "010"  => s_alu_control <= ""; -- SLL
+            when "011"  => s_alu_control <= ""; -- SRL
+            when "100"  => s_alu_control <= ""; -- AND
+            when "101"  => s_alu_control <= ""; -- OR
+            when others => s_alu_control <= "";
+        end case;        
+      when "001"  => s_alu_control <= ""; -- ADDI
+      when "010"  => s_alu_control <= ""; -- LW
+      when "011"  => s_alu_control <= ""; -- SW
+      when "100"  => s_alu_control <= ""; -- BEQ
+      when others => s_alu_control <= "111";
+    end case;
+  end process;
 
-end behavioral;
+  -- MUX for Second Operand
+  s_second_operand <= ;
+
+  -- ALU
+  process (s_alu_control, sa, rd1, s_second_operand)
+  begin
+    case s_alu_control is
+      when "000"  => s_alu_res <= ;
+      when "001"  => s_alu_res <= ;
+      when "010"  => s_alu_res <= ;
+      when "011"  => s_alu_res <= ;
+      when "100"  => s_alu_res <= ;
+      when "101"  => s_alu_res <= ;
+      when others => s_alu_res <= (others => '0');
+    end case;    
+  end process;
+  
+  alu_res <= s_alu_res; -- DUE TO ZERO FLAG, output cannot be a variable for condition in 'when' statement
+
+  -- Branch Target Address
+  bta <= ;
+ 
+  -- Zero Flag
+  zero <= ;
+
+end architecture;
 ```
 
 ### Sample template for declaration and instantiation in the top-level module
 
 ```vhd
-  component control_unit
+  -- Execution Unit
+  signal s_eu_out_alu_res : std_logic_vector(15 downto 0) := x"0000";
+  signal s_eu_out_bta     : std_logic_vector(15 downto 0) := x"0000";
+  signal s_eu_out_zero    : std_logic                     := '0';
+
+  component exec_unit
   port (
-    op_code    : in std_logic_vector(2 downto 0);
-    reg_dst    : out std_logic;
-    ext_op     : out std_logic;
-    alu_src    : out std_logic;
-    branch     : out std_logic;
-    jump       : out std_logic;
-    alu_op     : out std_logic_vector(2 downto 0);
-    mem_write  : out std_logic;
-    mem_to_reg : out std_logic;
-    reg_write  : out std_logic
+    ext_imm     : in  std_logic_vector(15 downto 0);
+    func        : in  std_logic_vector(2  downto 0);
+    rd1         : in  std_logic_vector(15 downto 0);
+    rd2         : in  std_logic_vector(15 downto 0);
+    pc_plus_one : in  std_logic_vector(15 downto 0);
+    sa          : in  std_logic;
+    alu_op      : in  std_logic_vector(2  downto 0);
+    alu_src     : in  std_logic;
+    alu_res     : out std_logic_vector(15 downto 0);
+    bta         : out std_logic_vector(15 downto 0);
+    zero        : out std_logic
   );
   end component;
 
-  inst_cu : control_unit
+  exec_unit_inst : exec_unit
   port map (
-    op_code    => s_if_out_instruction(15 downto 13),
-    reg_dst    => s_ctrl_reg_dst,
-    ext_op     => s_ctrl_ext_op,
-    alu_src    => s_ctrl_alu_src,
-    branch     => s_ctrl_branch,
-    jump       => s_ctrl_jump,
-    alu_op     => s_ctrl_alu_op,
-    mem_write  => s_ctrl_mem_write,
-    mem_to_reg => s_ctrl_mem_to_reg,
-    reg_write  => s_ctrl_reg_write
+    ext_imm     => ,
+    func        => ,
+    rd1         => ,
+    rd2         => ,
+    pc_plus_one => ,
+    sa          => ,
+    alu_op      => ,
+    alu_src     => ,
+    alu_res     => ,
+    bta         => ,
+    zero        => 
   );
 ```
