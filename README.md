@@ -54,7 +54,7 @@
 _Remember_: **UNLESS EXPLICITELY STATED, DO NOT CREATE ADDITIONAL FILES FOR COMPONENTS, JUST DIRECLTY IMPLEMENT IN THE GIVEN MODULE**  
 
 ## Execution Unit
-![Test Env](./README/test_env.svg)
+![Test Env](./README/mips_eu.svg)
 
 ### Sample template for EU component
 
