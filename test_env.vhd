@@ -25,6 +25,7 @@ architecture behavioral of test_env is
   
   -- Instruction Fetch
   signal s_if_in_jump_address : std_logic_vector(15 downto 0) := x"0000";
+  signal s_if_in_pc_src       : std_logic                     := '0';
   signal s_if_out_instruction : std_logic_vector(15 downto 0) := x"0000";
   signal s_if_out_pc_plus_one : std_logic_vector(15 downto 0) := x"0000";
 
@@ -174,7 +175,7 @@ begin
     branch_target_address  => s_eu_out_bta,
     jump_address           => s_if_in_jump_address,
     jump                   => s_ctrl_jump,
-    pc_src                 => s_ctrl_branch,
+    pc_src                 => s_if_in_pc_src,
     pc_en                  => s_mpg_out(0),
     pc_reset               => s_mpg_out(1),
     instruction            => s_if_out_instruction,
@@ -237,6 +238,7 @@ begin
 
   -- IF related
   s_if_in_jump_address <= x"00" & s_if_out_instruction(7 downto 0);
+  s_if_in_pc_src       <= s_ctrl_branch and s_eu_out_zero;
 
   -- ID related
   s_id_in_reg_write <= s_ctrl_reg_write and s_mpg_out(0);
