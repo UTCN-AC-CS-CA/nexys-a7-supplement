@@ -5,9 +5,9 @@ library ieee;
 
 entity mono_pulse_gen is
   port (
-    clk    : in std_logic;
+    clk    : in  std_logic;
     btn    : in  std_logic_vector(4  downto 0);
-    enable : out  std_logic_vector(4  downto 0)
+    enable : out std_logic_vector(4  downto 0)
   );
 end entity mono_pulse_gen;
 
