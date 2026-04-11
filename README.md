@@ -133,6 +133,15 @@ architecture behavioral of test_env is
 
   -- previous signals and component declarations
 
+  -- ID related signals
+  signal s_id_in_wd        : std_logic_vector(15 downto 0);
+  signal s_id_in_reg_write : std_logic;
+  signal s_id_out_ext_imm  : std_logic_vector(15 downto 0);
+  signal s_id_out_func     : std_logic_vector( 2 downto 0);
+  signal s_id_out_rd1      : std_logic_vector(15 downto 0);
+  signal s_id_out_rd2      : std_logic_vector(15 downto 0);
+  signal s_id_out_sa       : std_logic;
+
   component instr_decode
   port (
     clk       : in  std_logic;
@@ -238,6 +247,20 @@ end behavioral;
 ### Sample template for declaration and instantiation in the top-level module
 
 ```vhd
+
+  -- previous signals and component declarations
+
+  -- Control Signals
+  signal s_ctrl_reg_dst    : std_logic;
+  signal s_ctrl_ext_op     : std_logic;
+  signal s_ctrl_alu_src    : std_logic;
+  signal s_ctrl_branch     : std_logic;
+  signal s_ctrl_jump       : std_logic;
+  signal s_ctrl_alu_op     : std_logic_vector(2 downto 0);
+  signal s_ctrl_mem_write  : std_logic;
+  signal s_ctrl_mem_to_reg : std_logic;
+  signal s_ctrl_reg_write  : std_logic;
+
   component control_unit
   port (
     op_code    : in std_logic_vector(2 downto 0);
