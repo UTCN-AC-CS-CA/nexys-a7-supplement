@@ -210,25 +210,25 @@ begin
     begin
       case op_code is
         when "000" =>
-          reg_dst    <= ;
-          ext_op     <= ;
-          alu_src    <= ;
-          branch     <= ;
-          jump       <= ;
-          alu_op     <= ;
-          mem_write  <= ;
-          mem_to_reg <= ;
-          reg_write  <= ;
+          reg_dst    <= '';
+          ext_op     <= '';
+          alu_src    <= '';
+          branch     <= '';
+          jump       <= '';
+          alu_op     <= "";
+          mem_write  <= '';
+          mem_to_reg <= '';
+          reg_write  <= '';
         when others =>
-          reg_dst    <= ;
-          ext_op     <= ;
-          alu_src    <= ;
-          branch     <= ;
-          jump       <= ;
-          alu_op     <= ;
-          mem_write  <= ;
-          mem_to_reg <= ;
-          reg_write  <= ;
+          reg_dst    <= '';
+          ext_op     <= '';
+          alu_src    <= '';
+          branch     <= '';
+          jump       <= '';
+          alu_op     <= "";
+          mem_write  <= '';
+          mem_to_reg <= '';
+          reg_write  <= '';
       end case;
     end process;  
 
