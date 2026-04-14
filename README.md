@@ -181,6 +181,9 @@ end architecture;
   );
 ```
 ## Memory Unit
+
+Please keep in mind that the RAM used for the Memory Unit, must be __no change__ mode with *async* read and *sync* write
+
 ### Sample template for MU component
 ```vhd
 library ieee;
