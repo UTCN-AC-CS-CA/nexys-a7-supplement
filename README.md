@@ -1,4 +1,4 @@
-# MIPS - Phase 3 & 4 - Execution Unit & Memory Unit + Write-back Unit
+# MIPS - Phase 3, 4 & 5 - Execution Unit & Memory Unit + Write-back Unit
 
 ## Main Test Environment (Top Level Module)
 ![Test Env](./README/test_env.svg)
