@@ -262,3 +262,20 @@ library ieee;
   -- MU related
   s_mu_in_mem_write <= s_ctrl_mem_write and s_mpg_out(0);
 ```
+## Write Back Unit
+
+The Write Back unit (WB) is just the multiplexer on the right side of the circuit and is responsible for determining what data to pass to the  Write Data input of the Register File in the Instruction Decode.  
+There is no need for a separate component, you will simply implement it directly in your top-level module
+
+### Sample template for the top-level module
+```vhdl
+
+-- Write Back unit
+signal s_wb_out_wd : std_logic_vector(15 downto 0) := x"0000";
+
+-- other declarations and instantiations
+
+-- WB related behavioral code
+s_wb_out_wd <= s_mu_out_mem_data when s_ctrl_mem_to_reg = '1' else s_mu_out_alu_res;
+
+```
