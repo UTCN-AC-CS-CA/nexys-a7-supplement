@@ -122,6 +122,10 @@ begin
   -- NO OTHER EXTERNAL COMPONENT INSTANTIATION NECESSARY
   -- ADDITIONAL COMPONENT IMPLEMENTATION HERE
 
+  -- Lecture 5, slide 36
+  -- Extension Unit
+  ext_imm <= ;
+
 end behavioral;
 ```
 
