@@ -91,6 +91,7 @@ architecture rtl of exec_unit is
 
 begin
 
+  -- Lecture 5, slide 25
   -- ALU Control
   process (alu_op, func)
   begin
