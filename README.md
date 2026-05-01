@@ -93,6 +93,8 @@ begin
 
   -- Lecture 5, slide 25
   -- ALU Control
+  -- Reminder, that SLL and SLR shift $t in the official MIPS
+  -- check the instructions reference from the end of Lab 4
   process (alu_op, func)
   begin
     case alu_op is
