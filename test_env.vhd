@@ -3,7 +3,7 @@ library ieee;
  use ieee.std_logic_arith.all;
  use ieee.std_logic_unsigned.all;
  
-entity proba1 is
+entity test_env is
   port (
     clk : in  std_logic;
     btn : in  std_logic_vector( 4 downto 0);
@@ -12,17 +12,34 @@ entity proba1 is
     an  : out std_logic_vector( 7 downto 0);
     cat : out std_logic_vector( 6 downto 0)
   );
-end entity proba1;
+end entity test_env;
 
-architecture behavioral of proba1 is
+architecture behavioral of test_env is
 
   -- Monopulse Generator
   signal s_mpg_out : std_logic_vector(4  downto 0) := b"0_0000";
+
+  component monopulse
+  port (
+    clk    : in  std_logic;
+    btn    : in  std_logic_vector(4 downto 0);
+    enable : out std_logic_vector(4 downto 0)
+  );
+  end component;
 
   -- 7-segment display
   signal s_digits       : std_logic_vector(31 downto 0) := x"0000_0000";
   signal s_digits_upper : std_logic_vector(15 downto 0) := x"0000";
   signal s_digits_lower : std_logic_vector(15 downto 0) := x"0000";
+
+  component seven_seg_disp 
+  port (
+    clk    : in  std_logic;
+    digits : in  std_logic_vector(31 downto 0);   
+    an     : out std_logic_vector( 7 downto 0);
+    cat    : out std_logic_vector( 6 downto 0)
+  );
+  end component;
 
   -- IF related signals
   signal s_if_in_jump_address : std_logic_vector(15 downto 0) := x"0000";
@@ -133,24 +150,7 @@ architecture behavioral of proba1 is
     mem_data    : out std_logic_vector(15 downto 0);
     alu_res_out : out std_logic_vector(15 downto 0)
   );
-  end component;
-  
-  component monopulse
-  port (
-    clk    : in  std_logic;
-    btn    : in  std_logic_vector(4 downto 0);
-    enable : out std_logic_vector(4 downto 0)
-  );
-  end component;
-
-  component seven_seg_disp 
-  port (
-    clk    : in  std_logic;
-    digits : in  std_logic_vector(31 downto 0);   
-    an     : out std_logic_vector( 7 downto 0);
-    cat    : out std_logic_vector( 6 downto 0)
-  );
-  end component;
+  end component; 
  
   -- Write Back unit
   signal s_wb_out_wd : std_logic_vector(15 downto 0) := x"0000";
