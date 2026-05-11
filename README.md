@@ -35,7 +35,10 @@ Aside from the intermediary registers, other key changes include:
 
 ## Re-evaluate the results
 
-<img width="1588" height="224" alt="image" src="https://github.com/user-attachments/assets/d68a64f2-d61d-4a13-acc3-80f67bba3630" />
+Remember, when testing the your program on the board, due to the nature of the pipeline architecture, you will only see the results of the write-back on the fifth iteration, meaning the fourth instruction (PC + 1 will be 5)  
+
+<img width="1588" height="224" alt="image" src="https://github.com/user-attachments/assets/d68a64f2-d61d-4a13-acc3-80f67bba3630" />  
+
 
 1 / (10 - 2.315) = 1 / 7.768 = 0.13012 GHz or **130.12 MHz**  
 
