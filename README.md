@@ -1,3 +1,16 @@
+# MIPS - Pipeline
+
+1. Run the synthesis and make sure to wait until it completes
+<img width="239" height="248" alt="image" src="https://github.com/user-attachments/assets/8518afc5-656a-4bac-a3ef-6d85d29ded63" /><img width="191" height="73" alt="image" src="https://github.com/user-attachments/assets/fb6d5a1b-b993-4afa-862a-9059af271c78" />
+
+2. Open Synthesized Design --> Report Timing Summary --> Click OK (default settings are fine)
+<img width="938" height="673" alt="image" src="https://github.com/user-attachments/assets/61e1731c-2e6e-41b7-8ce4-e0ebd1c86c5f" />
+
+3. Click on the Design Timing Summary and look for the Worst Negative Slack (WNS)
+<img width="1650" height="365" alt="image" src="https://github.com/user-attachments/assets/9309de84-2095-4d9f-be66-6a51fa44270e" />
+
+
+
 # MIPS - Phase 3, 4 & 5 - Execution Unit & Memory Unit + Write-back Unit
 
 ## Main Test Environment (Top Level Module)
