@@ -29,7 +29,7 @@ Since the board operates at a clock speed of **100 MHz** as per the constraints 
 Aside from the intermediary registers, other key changes include:
 - Add an additional _write_address_out_ (`wa_out`) in the Instruction Decode
 - Change the clock behavior of the Register File for the synchronous write to `falling_edge`
-- Set the first entry in the Register File to `x0000` in order to mimic the proper MIPS' behavior
+- Set the first entry in the Register File to `x"0000"` in order to mimic the proper MIPS' behavior
 
 ## Get rid of the hazards from the test program
 
