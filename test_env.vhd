@@ -237,7 +237,7 @@ begin
   );
 
   -- IF related
-  s_if_in_jump_address <= x"00" & s_if_out_instruction(7 downto 0);
+  s_if_in_jump_address <= "000" & s_if_out_instruction(12 downto 0);
   s_if_in_pc_src       <= s_ctrl_branch and s_eu_out_zero;
 
   -- ID related
