@@ -31,3 +31,7 @@ Since the board operates at a clock speed of **100 MHz** as per the constraints 
 ## Re-evaluate the results
 
 <img width="1588" height="224" alt="image" src="https://github.com/user-attachments/assets/d68a64f2-d61d-4a13-acc3-80f67bba3630" />
+
+1 / (10 - 2.315) = 1 / 7.768 = 0.13012 GHz or **130.12 MHz**  
+
+That's an increase of **37.8754%** just by reorganizing the structure of the MIPS
