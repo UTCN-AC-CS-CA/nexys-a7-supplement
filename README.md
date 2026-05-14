@@ -21,7 +21,7 @@ On a real board, the design might appear to work sometimes and fail intermittent
 In simulation, you won't see this problem at all - timing failures only show up in static timing analysis and on actual hardware.  
 
 In this case, the formula for the actual maximum frequency would be 1 / (Target Period time - WNS).  
-Since the board operates at a clock speed of **100 MHz** as per the constraints file, this means that in nanoseconds for period time, it would be 10s.  
+Since the board operates at a clock speed of **100 MHz** as per the constraints file, this means that in nanoseconds for period time, it would be 10 ns.  
 1 / (10 - (-0.596)) = 1 / 10.596 = 0.094375 GHz or **94.375 MHz**
 
 ## Make the necessary updates to the VHDL design sources
